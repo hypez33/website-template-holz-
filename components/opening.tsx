@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ArrowDown, ArrowRight } from "lucide-react";
 import endgrain from "@/assets/images/endgrain.webp";
 import { ChalkLine } from "./chalk-line";
+import { CutImage } from "./cut-image";
 
 export function Opening() {
   return (
@@ -21,16 +22,23 @@ export function Opening() {
 
       <div className="opening__figure">
         <figure className="h-full">
-          <Image
-            src={endgrain}
-            alt="Kante eines frisch gehobelten Eichenbalkens mit Hirnholz und einem eingerollten Hobelspan, im Streiflicht vor einer Kalkputzwand."
-            priority
-            placeholder="blur"
-            sizes="(min-width: 900px) 42vw, 84vw"
+          <CutImage
+            image={
+              <Image
+                src={endgrain}
+                alt="Kante eines frisch gehobelten Eichenbalkens mit Hirnholz und einem eingerollten Hobelspan, im Streiflicht vor einer Kalkputzwand."
+                priority
+                placeholder="blur"
+                sizes="(min-width: 900px) 42vw, 84vw"
+              />
+            }
+            copy={<Image src={endgrain} alt="" loading="eager" sizes="(min-width: 900px) 42vw, 84vw" />}
+            caption={
+              <span className="label absolute bottom-3 right-3 bg-surface/85 px-2 py-1 text-[0.6875rem] text-muted min-[900px]:hidden">
+                Eiche, Hirnholz · KI-Konzeptbild
+              </span>
+            }
           />
-          <figcaption className="label absolute bottom-3 right-3 bg-surface/85 px-2 py-1 text-[0.6875rem] text-muted min-[900px]:hidden">
-            Eiche, Hirnholz · KI-Konzeptbild
-          </figcaption>
         </figure>
         <dl className="opening__schriftfeld label" aria-label="Bildangaben">
           <dt>Blatt</dt>

@@ -1,6 +1,7 @@
 import { ChapterMark } from "./chapter-mark";
 import { MaterialSelector } from "./material-selector";
 import { ScrollWidth } from "./scroll-width";
+import { WoodMovement } from "./wood-movement";
 
 export function ChapterMaterial() {
   return (
@@ -17,6 +18,7 @@ export function ChapterMaterial() {
           passt, hängt vom Raum ab, vom Licht und davon, wie stark es genutzt wird.
         </p>
       </div>
+      <WoodMovement />
       <MaterialSelector />
     </section>
   );

@@ -47,6 +47,19 @@
   6. Ruhige Maßkette der Arbeitsschritte.
   7. Schlagschnur-Rückruf über dem Formular.
 
+  Große Szenen (28.10.2026), alle scrollgekoppelt über `--p` bzw. `--c`, Höhen nur per Media Query:
+  - Der Schnitt: Beim Wegscrollen wird das Hero-Bild entlang der Schlagschnur gesägt; die Schnittlinie wird aus der Lage der Schnur berechnet.
+  - Vom Plan zum Raum (01): Konstruktionslinien auf Zeichenpapier, dann wächst das Foto vom Boden auf, zuletzt die Markierungen A–C (ersetzt dort die Schranktüren).
+  - Kamerafahrt (05, `workshop-tour.tsx`): Sticky-Bühne; ein Kamerapfad (Fokus + Zoom bis 1,7×, auf Mobil gedämpft) fährt zu drei Stationen, zoomt heran und zwischen den Halten zurück. Sucher-Ecken rasten gedreht auf dem Detail ein, die Erläuterung wischt herein, eine Fahrtschiene zeigt den Stand, beim Fenster kommt warmes Licht dazu, der Titel weicht zu Beginn aus und kehrt am Ende zurück. Ohne Bewegung oder ohne JS: stehendes Panorama, Stationen als Liste. Bild in voller Auflösung (2688 px), kein `will-change` (sonst unscharf beim Zoom).
+  - Gefügter Satz (04): Die zwei Zeilen fahren von links und rechts ineinander.
+
+  Ergänzt (28.10.2026), jeweils mit erklärender oder orientierender Funktion:
+  - „Holz arbeitet“: Fladerschnitt und Riftschnitt trocknen scrollgekoppelt im Querschnitt (schematisch, überzeichnet), das eine Brett schüsselt, das andere bleibt eben.
+  - Linien-Icons für Leistungen und Arbeitsschritte (Zollstock klappt auf, Bleistift zeichnet, Hobel stößt, Libelle pendelt sich ein).
+  - Kreide-Markierung der Tuschschnur auf der Zeichnung von 1878.
+  - Formular-Fortschritt als Maßkette über die sechs Pflichtangaben.
+  - Kapitelmarken und Fußzeilen-Falz über CSS-Scroll-Timelines (nur wo unterstützt, sonst statisch).
+
   Bei `prefers-reduced-motion` und ohne JavaScript gelten Endzustände.
 - **Mobile Umsetzung:**
   - Typografie-geführter Einstieg, Bild mit Falz darunter.
@@ -69,6 +82,7 @@
     - Lupen-Fadenkreuz;
     - Fußzeilen-Umbruch;
     - Tablet-Stufe;
+    - IntersectionObserver lieferte gebündelte Einträge; der Scroll-Hook las den veralteten ersten und blieb nach schnellen Sprüngen stehen. Jetzt zählt der neueste Eintrag.
     - Layoutsprung nach der Hydration: Die Montage-Spur wuchs erst mit JavaScript auf 260svh, wodurch frühe Ankersprünge verrutschten. Die Höhe hängt jetzt nur an der Media Query.
 - **Bewusst vermeiden:** Creme/Serif/Terrakotta-Handwerksklischee, Bewertungs- und Zahlenblöcke, Card-Raster, Pill-Buttons.
 
@@ -82,7 +96,7 @@
 | `assets/images/muster.webp` | Holzmuster auf Kalkputz | KI-generiert, Job `eb2120db` |
 | `assets/images/zinken.webp` | Schwalbenschwanzzinken | KI-generiert, Job `85e68bec` |
 | `assets/images/hobel.webp` | Hände mit Handhobel | KI-generiert, Job `c41cb13b` |
-| `assets/images/werkstatt.webp`, `werkstatt-mobil.webp` | Werkstatt (mobil: eigener Ausschnitt) | KI-generiert, Job `b97a2940` |
+| `assets/images/werkstatt.webp` | Werkstatt (Panorama der Kamerafahrt) | KI-generiert, Job `b97a2940` |
 | `assets/images/kueche.webp` | Küche Nussbaum/Eiche | KI-generiert, Job `122b78c9` |
 | `assets/images/anriss-1878.webp` | „Carpenter’s square, ink-line (chalk line), marker“, Japan 1878, Ausschnitt | Library of Congress, Japanese Fine Prints, LCCN 2009630306, gemeinfrei; via Wikimedia Commons |
 

@@ -2,7 +2,18 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { useMotionAllowed } from "@/lib/motion";
 
-export type ServiceIconKind = "schrank" | "kueche" | "regal" | "verkleidung" | "moebel" | "tuer";
+export type LineIconKind =
+  | "schrank"
+  | "kueche"
+  | "regal"
+  | "verkleidung"
+  | "moebel"
+  | "tuer"
+  | "gespraech"
+  | "aufmass"
+  | "entwurf"
+  | "fertigung"
+  | "montage";
 
 /** Gezeichnete Linie; `d` = Verzögerung des Strichs in ms */
 function L({ d, delay = 0, accent }: { d: string; delay?: number; accent?: boolean }) {
@@ -16,7 +27,7 @@ function L({ d, delay = 0, accent }: { d: string; delay?: number; accent?: boole
   );
 }
 
-const drawings: Record<ServiceIconKind, ReactNode> = {
+const drawings: Record<LineIconKind, ReactNode> = {
   // Schrank unter der Dachschräge, rechte Tür schwenkt auf und gibt den Fachboden frei
   schrank: (
     <>
@@ -117,14 +128,94 @@ const drawings: Record<ServiceIconKind, ReactNode> = {
       </g>
     </>
   ),
+
+  /* --- Arbeitsschritte --- */
+  // Gespräch: zwei Sprechblasen, in der ersten wird „getippt“
+  gespraech: (
+    <>
+      <L d="M8 12 H40 V32 H20 L13 39 V32 H8 Z" />
+      {[17, 24, 31].map((x, k) => (
+        <path key={x} d={`M${x} 22 h0.01`} className="si-dot" style={{ "--k": k } as CSSProperties} />
+      ))}
+      <path d="M26 30 H56 V48 H50 V55 L43 48 H26 Z" className="si-fill" />
+      <L d="M26 30 H56 V48 H50 V55 L43 48 H26 Z" delay={180} />
+      <L d="M32 37 H50 M32 42 H44" delay={320} />
+    </>
+  ),
+  // Aufmaß: ein Zollstock klappt Glied für Glied auf
+  aufmass: (
+    <>
+      <L d="M8 22 H58 M6 24 L10 20 M56 24 L60 20" accent delay={360} />
+      <g className="zs zs1">
+        <L d="M8 34 H22 V42 H8 Z" delay={80} />
+        <L d="M11 34 v3 M14 34 v2 M17 34 v3 M20 34 v2" delay={200} />
+        <g className="zs zs2">
+          <L d="M22 34 H36 V42 H22 Z" delay={120} />
+          <L d="M25 34 v3 M28 34 v2 M31 34 v3 M34 34 v2" delay={240} />
+          <g className="zs zs3">
+            <L d="M36 34 H50 V42 H36 Z" delay={160} />
+            <L d="M39 34 v3 M42 34 v2 M45 34 v3 M48 34 v2" delay={280} />
+            <g className="zs zs4">
+              <L d="M50 34 H58 V42 H50 Z" delay={200} />
+            </g>
+          </g>
+        </g>
+      </g>
+    </>
+  ),
+  // Entwurf: der Bleistift zieht eine Linie in Schlagschnur-Blau
+  entwurf: (
+    <>
+      <L d="M8 10 H48 V56 H8 Z" />
+      <L d="M14 20 H40 M14 27 H32 M14 34 H36" delay={140} />
+      <path d="M14 44 H40" pathLength={1} className="si-penline si-a" />
+      <g transform="translate(14 44)">
+        <g className="si-m si-m--pencil">
+          <path d="M0 0 L3 -7 L25 -29 L29 -25 L7 -3 Z" className="si-fill" />
+          <L d="M0 0 L3 -7 L25 -29 L29 -25 L7 -3 Z M3 -7 L7 -3" delay={240} />
+        </g>
+      </g>
+    </>
+  ),
+  // Fertigung: ein Hobel stößt über das Brett, ein Span rollt sich auf
+  fertigung: (
+    <>
+      <L d="M4 44 H60 V52 H4 Z" />
+      <L d="M10 48 H22 M30 47 H46" delay={160} />
+      <g transform="translate(6 44)">
+        <g className="si-m si-m--plane">
+          <path d="M0 0 H24 V-8 H0 Z" className="si-fill" />
+          <L d="M0 0 H24 V-8 H0 Z" delay={120} />
+          <L d="M15 -8 C15 -16 22 -16 22 -8 M3 -8 V-12 H6 V-8" delay={260} />
+          <path
+            d="M11 -8 C9 -17 19 -20 20 -14 C21 -10 15 -10 15.5 -13"
+            pathLength={1}
+            className="si-shave si-a"
+          />
+        </g>
+      </g>
+    </>
+  ),
+  // Montage: Korpus im Raum, die Libelle der Wasserwaage pendelt sich ein
+  montage: (
+    <>
+      <L d="M12 24 H52 V56 H12 Z M32 24 V56" />
+      <L d="M28 38 V44 M36 38 V44" delay={220} />
+      <L d="M14 14 H50 V21 H14 Z" delay={120} />
+      <L d="M26 15.5 H38 V19.5 H26 Z M30 15.5 V19.5 M34 15.5 V19.5" delay={200} />
+      <g className="si-m si-m--bubble">
+        <path d="M31.2 17.5 h1.6" className="si-bubble" />
+      </g>
+    </>
+  ),
 };
 
 /**
- * Animiertes Linien-Icon: zeichnet sich beim Erscheinen, danach eine kurze,
- * inhaltliche Bewegung. Mit feinem Zeiger wiederholt Hover über der Zeile die
- * Bewegung. Ohne JavaScript / bei reduzierter Bewegung: fertige Zeichnung.
+ * Animiertes Linien-Icon (Leistungen, Arbeitsschritte): zeichnet sich beim
+ * Erscheinen, danach eine kurze, inhaltliche Bewegung. Mit feinem Zeiger
+ * wiederholt Hover über der Zeile die Bewegung. Ohne JavaScript / bei reduzierter Bewegung: fertige Zeichnung.
  */
-export function ServiceIcon({ kind, index }: { kind: ServiceIconKind; index: number }) {
+export function LineIcon({ kind, index }: { kind: LineIconKind; index: number }) {
   const ref = useRef<SVGSVGElement>(null);
   const allowed = useMotionAllowed();
   const [state, setState] = useState<"armed" | "play" | undefined>(undefined);
@@ -135,8 +226,8 @@ export function ServiceIcon({ kind, index }: { kind: ServiceIconKind; index: num
     if (!svg || !allowed) return;
     const frame = requestAnimationFrame(() => setState((s) => s ?? "armed"));
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
           setState("play");
           observer.disconnect();
         }

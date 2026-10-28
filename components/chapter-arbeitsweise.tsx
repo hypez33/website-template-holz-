@@ -1,34 +1,11 @@
-import Image, { getImageProps } from "next/image";
-import werkstatt from "@/assets/images/werkstatt.webp";
-import werkstattMobil from "@/assets/images/werkstatt-mobil.webp";
+import Image from "next/image";
 import kueche from "@/assets/images/kueche.webp";
 import { services } from "@/lib/content";
 import { ChapterMark } from "./chapter-mark";
 import { DoorReveal } from "./door-reveal";
 import { ProcessChain } from "./process-chain";
-import { ServiceIcon } from "./service-icon";
-
-const workshopAlt =
-  "Konzeptbild: ruhige Werkstatt mit gekalkten Wänden, Eichenbretter im Wandregal, eine Hobelbank mit Handhobel, Abendlicht fällt in einem langen Streifen über den Betonboden.";
-
-function WorkshopBand() {
-  const common = { alt: workshopAlt, placeholder: "blur" as const };
-  const {
-    props: { srcSet: wide },
-  } = getImageProps({ ...common, src: werkstatt, sizes: "100vw" });
-  const {
-    props: { srcSet: narrow, ...rest },
-  } = getImageProps({ ...common, src: werkstattMobil, sizes: "100vw" });
-
-  return (
-    <picture>
-      <source media="(min-width: 700px)" srcSet={wide} />
-      <source media="(max-width: 699px)" srcSet={narrow} />
-      {/* eslint-disable-next-line jsx-a11y/alt-text -- alt steckt in rest */}
-      <img {...rest} className="werkstatt__img" />
-    </picture>
-  );
-}
+import { LineIcon } from "./line-icon";
+import { WorkshopTour } from "./workshop-tour";
 
 export function ChapterArbeitsweise() {
   return (
@@ -37,13 +14,7 @@ export function ChapterArbeitsweise() {
         <ChapterMark no="05" title="Arbeitsweise" />
       </div>
 
-      <div className="werkstatt">
-        <WorkshopBand />
-        <h2 id="arbeitsweise-title" className="display werkstatt__title frame">
-          <span>Eine Werkstatt,</span>
-          <span>dieselben Hände.</span>
-        </h2>
-      </div>
+      <WorkshopTour />
 
       <div className="frame arbeitsweise__grid">
         <p className="arbeitsweise__lead">
@@ -61,7 +32,7 @@ export function ChapterArbeitsweise() {
               <span className="label text-accent">{String(i + 1).padStart(2, "0")}</span>
               <span className="leistungen__title">{s.title}</span>
               <span className="leistungen__note">{s.note}</span>
-              <ServiceIcon kind={s.icon} index={i} />
+              <LineIcon kind={s.icon} index={i} />
             </li>
           ))}
         </ul>

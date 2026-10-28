@@ -2,7 +2,7 @@ import Image from "next/image";
 import einbauwand from "@/assets/images/einbauwand.webp";
 import { ChapterMark } from "./chapter-mark";
 import { Dimension } from "./dimension";
-import { DoorReveal } from "./door-reveal";
+import { PlanReveal } from "./plan-reveal";
 
 const callouts = [
   { key: "A", text: "Fensterlaibung wird zur Sitzbank" },
@@ -41,8 +41,7 @@ export function ChapterRaum() {
         </ol>
       </div>
 
-      <DoorReveal
-        className="raum__media"
+      <PlanReveal
         overlay={
           <>
             <Dimension value="3 120" className="raum__dim-h" />
@@ -56,7 +55,7 @@ export function ChapterRaum() {
           placeholder="blur"
           sizes="(min-width: 900px) 52vw, 100vw"
         />
-      </DoorReveal>
+      </PlanReveal>
       <p className="raum__caption label text-muted">
         Konzeptbild (KI-generiert), keine Kundenarbeit · Maße in mm, Beispiel
       </p>

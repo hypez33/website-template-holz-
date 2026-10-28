@@ -49,8 +49,9 @@ export function useReveal(
     // Zustandswechsel im Frame: erst schließen, dann beobachten
     const frame = requestAnimationFrame(() => setState("closed"));
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
+      (entries) => {
+        // Einträge können gebündelt kommen; ein sichtbarer genügt
+        if (entries.some((e) => e.isIntersecting)) {
           setState("open");
           observer.disconnect();
         }
@@ -111,8 +112,9 @@ export function useScrollProgress(
     const onScroll = () => {
       if (active && !frame) frame = requestAnimationFrame(update);
     };
-    const observer = new IntersectionObserver(([entry]) => {
-      active = entry?.isIntersecting ?? false;
+    const observer = new IntersectionObserver((entries) => {
+      // Gebündelte Einträge: nur der neueste beschreibt den aktuellen Zustand
+      active = entries.at(-1)?.isIntersecting ?? false;
       if (active) update();
     });
     observer.observe(element);

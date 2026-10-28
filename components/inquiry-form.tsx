@@ -1,9 +1,18 @@
 "use client";
-import { startTransition, useActionState, useEffect, useRef, useState, type ReactNode, type SubmitEvent } from "react";
+import { startTransition, useActionState, useEffect, useRef, useState, type CSSProperties, type ReactNode, type SubmitEvent } from "react";
 import { ArrowRight, Check, LoaderCircle, RotateCcw } from "lucide-react";
 import { submitInquiry } from "@/app/actions";
 import { projectTypes, timeframes } from "@/lib/content";
 import { validateInquiry, type FieldErrors, type InquiryField, type InquiryState } from "@/lib/inquiry";
+
+const required: InquiryField[] = ["types", "zeitraum", "nachricht", "name", "email", "einwilligung"];
+
+/** Wie viele Pflichtangaben sind schon gültig? */
+function countDone(form: HTMLFormElement) {
+  const check = validateInquiry(new FormData(form));
+  const errs: FieldErrors = check.ok ? {} : check.errors;
+  return required.filter((key) => !errs[key]).length;
+}
 
 const order: InquiryField[] = ["types", "zeitraum", "ort", "nachricht", "name", "email", "telefon", "einwilligung"];
 
@@ -49,6 +58,7 @@ function Field({
 function Form({ onDone }: { onDone: () => void }) {
   const [state, dispatch, pending] = useActionState<InquiryState, FormData>(submitInquiry, { status: "idle" });
   const [clientErrors, setClientErrors] = useState<FieldErrors | null>(null);
+  const [done, setDone] = useState(0);
   const formRef = useRef<HTMLFormElement>(null);
   const successRef = useRef<HTMLHeadingElement>(null);
 
@@ -118,6 +128,7 @@ function Form({ onDone }: { onDone: () => void }) {
       action={dispatch}
       onSubmit={onSubmit}
       onChange={(event) => {
+        setDone(countDone(event.currentTarget));
         // Korrigierte Felder verlieren ihre Fehlermeldung sofort
         const target = event.target as EventTarget & { name?: string };
         const name = target.name as InquiryField;
@@ -282,6 +293,25 @@ function Form({ onDone }: { onDone: () => void }) {
           </span>
         </label>
         <ErrorText id="einwilligung-error" message={errors.einwilligung} />
+      </div>
+
+      {/* Fortschritt als Maßkette; ohne JavaScript ausgeblendet, weil er dort nicht mitläuft */}
+      <noscript>
+        <style>{".inquiry__progress{display:none}"}</style>
+      </noscript>
+      <div
+        className="inquiry__progress"
+        data-complete={done === required.length ? "" : undefined}
+        style={{ "--f": done / required.length } as CSSProperties}
+      >
+        <span className="inquiry__track" aria-hidden="true">
+          <span className="inquiry__fill" />
+        </span>
+        <span className="label">
+          {done === required.length
+            ? "Alle Pflichtangaben vollständig"
+            : `${done} von ${required.length} Pflichtangaben`}
+        </span>
       </div>
 
       <button type="submit" className="action inquiry__submit" disabled={pending}>

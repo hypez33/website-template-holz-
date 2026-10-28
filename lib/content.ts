@@ -56,26 +56,31 @@ export const steps = [
   {
     no: "01",
     title: "Gespräch",
+    icon: "gespraech",
     body: "Am Telefon oder in der Werkstatt. Sie erzählen, wie der Raum genutzt wird und was ihn heute stört — Maße braucht es dafür noch nicht.",
   },
   {
     no: "02",
     title: "Aufmaß vor Ort",
+    icon: "aufmass",
     body: "Wir messen den Raum selbst: Wandfluchten, Schiefstände, Leitungen, Fensterlaibungen und wo das Licht hinfällt.",
   },
   {
     no: "03",
     title: "Entwurf und Muster",
+    icon: "entwurf",
     body: "Grundriss, Ansicht und Schnitt von Hand und im CAD, dazu Materialmuster zum Anfassen. Daraus entsteht ein verbindliches Angebot.",
   },
   {
     no: "04",
     title: "Werkplanung und Fertigung",
+    icon: "fertigung",
     body: "Jedes Teil wird in der eigenen Werkstatt gefertigt. Größere Einbauten bauen wir dort einmal komplett auf, bevor sie das Haus verlassen.",
   },
   {
     no: "05",
     title: "Montage",
+    icon: "montage",
     body: "Eingebaut wird von den Leuten, die gebaut haben. Zur Übergabe gibt es Pflegehinweise für die gewählte Oberfläche.",
   },
 ] as const;

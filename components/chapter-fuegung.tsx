@@ -3,6 +3,7 @@ import zinken from "@/assets/images/zinken.webp";
 import hobel from "@/assets/images/hobel.webp";
 import { ChapterMark } from "./chapter-mark";
 import { JointAssembly } from "./joint-assembly";
+import { ScrollStage } from "./scroll-stage";
 
 export function ChapterFuegung() {
   return (
@@ -35,11 +36,12 @@ export function ChapterFuegung() {
           />
           <figcaption className="label mt-3 text-white/65">Nussbaum in Eiche · KI-Konzeptbild</figcaption>
         </figure>
-        <p className="fuegung__quote display">
-          Maschinen schneiden gerade.
-          <br />
-          <span className="text-accent-on-dark">Passen muss es von Hand.</span>
-        </p>
+        <ScrollStage className="fuegung__quote-wrap" start={0.95} end={0.45}>
+          <p className="fuegung__quote display">
+            <span className="fuegung__q1">Maschinen schneiden gerade.</span>{" "}
+            <span className="fuegung__q2 text-accent-on-dark">Passen muss es von Hand.</span>
+          </p>
+        </ScrollStage>
         <figure className="fuegung__photo fuegung__photo--b">
           <Image
             src={hobel}

@@ -2,6 +2,7 @@ import Image from "next/image";
 import zeichnung from "@/assets/images/zeichnung.webp";
 import anriss from "@/assets/images/anriss-1878.webp";
 import { ChapterMark } from "./chapter-mark";
+import { ChalkAnnotation } from "./chalk-annotation";
 import { DraftingReveal } from "./drafting-reveal";
 
 export function ChapterZeichnung() {
@@ -41,12 +42,14 @@ export function ChapterZeichnung() {
         </div>
 
         <figure className="zeichnung__archive">
-          <Image
-            src={anriss}
-            alt="Historische Tuschezeichnung auf Papier: ein Zimmermannswinkel, eine japanische Tuschschnur mit Rolle und ein Anreißstift, darunter eine handschriftliche englische Beschriftung."
-            placeholder="blur"
-            sizes="(min-width: 900px) 22vw, 60vw"
-          />
+          <ChalkAnnotation label="Tuschschnur">
+            <Image
+              src={anriss}
+              alt="Historische Tuschezeichnung auf Papier: ein Zimmermannswinkel, eine japanische Tuschschnur mit Rolle und ein Anreißstift, darunter eine handschriftliche englische Beschriftung."
+              placeholder="blur"
+              sizes="(min-width: 900px) 22vw, 60vw"
+            />
+          </ChalkAnnotation>
           <figcaption className="label mt-3 text-muted">
             Winkel, Schlagschnur, Anreißer · Zeichnung, Japan 1878 · Library of Congress,
             gemeinfrei

@@ -324,7 +324,7 @@ dd {
   object-fit: cover;
 }
 .opening .chalk {
-  --chalk-top: 21%;
+  --chalk-top: 34%;
   left: -38%;
   width: 150%;
 }
@@ -349,6 +349,38 @@ dd {
   grid-column: 1 / -1;
   grid-row: 4;
   margin-top: 2.5rem;
+}
+
+/* Der Schnitt: Beim Wegscrollen wird das Bild entlang der Schnur gesägt.
+   --c (0…1) setzt CutImage; dunkel dahinter liegt die Schnittfuge. */
+.opening__figure figure {
+  background: var(--color-foreground);
+}
+.cut {
+  position: absolute;
+  inset: 0;
+  --k: 1;
+}
+.cut__piece {
+  position: absolute;
+  inset: 0;
+}
+.cut[data-cut] .cut__piece {
+  will-change: transform;
+}
+.cut[data-cut] .cut__piece--above {
+  transform-origin: 20% 30%;
+  transform: translate(calc(var(--c, 0) * -16px * var(--k)), calc(var(--c, 0) * -38px * var(--k)))
+    rotate(calc(var(--c, 0) * -3deg));
+}
+.cut[data-cut] .cut__piece--below {
+  transform-origin: 80% 70%;
+  transform: translate(calc(var(--c, 0) * 12px * var(--k)), calc(var(--c, 0) * 30px * var(--k)))
+    rotate(calc(var(--c, 0) * 1.4deg));
+}
+/* Die Schnur ist verbraucht, sobald gesägt wird */
+.opening__figure .chalk {
+  opacity: calc(1 - var(--c, 0) * 3);
 }
 
 /* Schlagschnur: gespannt, gezupft, Kreideabdruck bleibt */
@@ -786,6 +818,9 @@ dd {
     --falz-x: 36%;
     --falz-y: 24%;
     clip-path: polygon(0 0, 100% 0, 100% 100%, var(--falz-x) 100%, var(--falz-x) calc(100% - var(--falz-y)), 0 calc(100% - var(--falz-y)));
+  }
+  .cut {
+    --k: 1.8;
   }
   .opening .chalk {
     --chalk-top: 47%;
